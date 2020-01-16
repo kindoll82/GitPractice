@@ -16,36 +16,39 @@ import UIKit
 //: e. Use a `String?` for the Terminal, since it may not be set yet (i.e.: waiting to arrive on time)
 //:
 //: f. Use a class to represent a `DepartureBoard` with a list of departure flights, and the current airport
-enum FlightStatus {
-    case enroute
-    case landed
-    case scheduled
-    case delayed
-    case canceled
+enum FlightStatus: String{
+    case enroute = "enroute"
+    case landed = "landed"
+    case scheduled = "scheduled"
+    case delayed = "delayed"
+    case canceled = "canceled"
 }
 
 struct Airport {
-    let flightType: String
-    let planeType: String
+    
+    let city: String
     
 }
 
 struct Flight {
     let departureTime: Date?
     let terminal: String?
+    let destination: Airport
+    let flightStatus: FlightStatus
 }
 
 class DepartureBoard {
-    var departure: Date
-    var flights: String
-    var currentAirport: String
+    var departureFlights: [Flight]
+    var currentAirport: Airport
     
-    init(departure: Date, flights: String, currentAirport: String) {
-        self.departure = departure
-        self.flights = flights
-        self.currentAirport = currentAirport
+    init(city: String) {
+        self.currentAirport = Airport(city: city)
+        self.departureFlights = []
+        
     }
 }
+
+
 //: ## 2. Create 3 flights and add them to a departure board
 //: a. For the departure time, use `Date()` for the current time
 //:
@@ -56,9 +59,26 @@ class DepartureBoard {
 //: d. Make one of the flights have a `nil` terminal because it has not been decided yet.
 //:
 //: e. Stretch: Look at the API for [`DateComponents`](https://developer.apple.com/documentation/foundation/datecomponents?language=objc) for creating a specific time
-let flight1 = DepartureBoard(departure: Date(), flights: "non stop", currentAirport: "LAX")
-let flight2 = DepartureBoard(departure: Date(), flights: "non stop", currentAirport: "LAX")
-let flight3 = DepartureBoard(departure: Date(), flights: "1 layover", currentAirport: "LAX")
+
+
+let LAX = Airport(city: "Los Angelos")
+let CAE = Airport(city: "Columbia")
+let BOS = Airport(city: "Boston")
+
+let flight1 = Flight(departureTime: Date(), terminal: "Delta", destination: LAX, flightStatus: .enroute)
+let flight2 = Flight(departureTime: Date(), terminal: "American", destination: CAE, flightStatus: .canceled)
+let flight3 = Flight(departureTime: Date(), terminal: "Delta", destination: BOS, flightStatus: .landed)
+
+
+let newDepartureBoard = DepartureBoard(city: "Hollywood")
+
+newDepartureBoard.departureFlights.append(flight1)
+newDepartureBoard.departureFlights.append(flight2)
+newDepartureBoard.departureFlights.append(flight3)
+
+
+
+
 
 
 
@@ -70,8 +90,13 @@ let flight3 = DepartureBoard(departure: Date(), flights: "1 layover", currentAir
 //: c. Make your `FlightStatus` enum conform to `String` so you can print the `rawValue` String values from the `enum`. See the [enum documentation](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
 //:
 //: d. Print out the current DepartureBoard you created using the function
-
-
+func printDepartures(departureBoard: DepartureBoard) {
+    for departureFlight in departureBoard.departureFlights {
+        print(departureFlight)
+    }
+    
+}
+printDepartures(departureBoard: newDepartureBoard)
 
 
 //: ## 4. Make a second function to print print an empty string if the `departureTime` is nil
@@ -88,6 +113,23 @@ let flight3 = DepartureBoard(departure: Date(), flights: "1 layover", currentAir
 //:     Destination: Los Angeles Airline: Delta Air Lines Flight: KL 6966 Departure Time:  Terminal: 4 Status: Canceled
 //:     Destination: Rochester Airline: Jet Blue Airways Flight: B6 586 Departure Time: 1:26 PM Terminal:  Status: Scheduled
 //:     Destination: Boston Airline: KLM Flight: KL 6966 Departure Time: 1:26 PM Terminal: 4 Status: Scheduled
+func printDepartures2(departureBoard: DepartureBoard) {
+    print(departureBoard.departureFlights)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -105,6 +147,15 @@ let flight3 = DepartureBoard(departure: Date(), flights: "1 layover", currentAir
 //: d. Call the `alertPassengers()` function on your `DepartureBoard` object below
 //:
 //: f. Stretch: Display a custom message if the `terminal` is `nil`, tell the traveler to see the nearest information desk for more details.
+
+
+
+
+
+
+
+
+
 
 
 
